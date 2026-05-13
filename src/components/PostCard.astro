@@ -1,0 +1,62 @@
+---
+// PostCard.astro — reusable card component for displaying a blog post preview.
+// Used on the home page (latest 3 posts) and the blog index (all posts).
+// Text-only by design — no cover images anywhere on the site.
+
+interface Props {
+  title: string;
+  date: Date;
+  author: string;
+  description: string;
+  slug: string;
+  readTime: number; // estimated minutes
+}
+
+const { title, date, author, description, slug, readTime } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Format the date for display — e.g. "May 10, 2026"
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="group border border-pc-border dark:border-gray-800 rounded-lg p-6 hover:border-pc-accent dark:hover:border-green-700 transition-colors duration-200 bg-pc-bg dark:bg-pc-dark-bg flex flex-col gap-3">
+
+  <!-- Post title — links to the individual post page -->
+  <h3 class="font-heading text-xl font-semibold leading-snug">
+    <a
+      href={`${base}/blog/${slug}`}
+      class="text-pc-text dark:text-pc-dark-text hover:text-pc-accent dark:hover:text-green-400 transition-colors"
+    >
+      {title}
+    </a>
+  </h3>
+
+  <!-- Meta line: date · author · read time -->
+  <p class="text-sm text-pc-muted dark:text-pc-dark-muted font-body flex flex-wrap items-center gap-x-2 gap-y-1">
+    <time datetime={date.toISOString().split('T')[0]}>{formattedDate}</time>
+    <span aria-hidden="true">·</span>
+    <span>{author}</span>
+    <span aria-hidden="true">·</span>
+    <span>{readTime} min read</span>
+  </p>
+
+  <!-- Description / excerpt -->
+  <p class="text-base text-pc-text/80 dark:text-pc-dark-text/80 font-body leading-relaxed flex-1">
+    {description}
+  </p>
+
+  <!-- Read more link — subtle, accessible -->
+  <a
+    href={`${base}/blog/${slug}`}
+    class="mt-1 text-sm font-medium text-pc-accent dark:text-green-400 hover:underline underline-offset-2 transition-colors self-start"
+    aria-label={`Read "${title}"`}
+  >
+    Read post &rarr;
+  </a>
+
+</article>

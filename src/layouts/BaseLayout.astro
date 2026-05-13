@@ -1,0 +1,74 @@
+---
+// BaseLayout.astro — the root layout wrapping every page on the site.
+// NOTE (Astro vs Next.js): In Astro, layouts are just components that accept
+// a <slot /> — equivalent to {children} in a Next.js layout. Every page imports
+// this layout and wraps its content inside it.
+
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;        // Used in <title> and og:title
+  description?: string; // Used in meta description
+}
+
+const {
+  title,
+  description = 'A reflective digital journal for a CS student navigating the shift from education to the professional AI era.',
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Prevent flash of wrong theme — inline script runs before first paint
+// (same pattern as Next.js _document.tsx theme injection)
+// Default is light mode. Only apply dark if the user explicitly toggled it.
+// We ignore prefers-color-scheme so the site always opens light for new visitors.
+const themeScript = `
+  (function() {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO meta tags -->
+    <title>{title} | Post-Credit</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={`${title} | Post-Credit`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Favicon — emoji renders cleanly at all small sizes, no dark-bg artifacts -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>" />
+
+    <!-- Prevent FOUC (Flash of Unstyled Content) for dark mode -->
+    <script set:html={themeScript} />
+  </head>
+
+  <body class="min-h-screen flex flex-col font-body transition-colors duration-200">
+
+    <!-- Sticky top navbar (all pages) -->
+    <Navbar />
+
+    <!-- Page-specific content is injected here via <slot /> -->
+    <!-- NOTE: In Next.js this would be {children}; in Astro it's <slot /> -->
+    <main class="flex-1 w-full">
+      <slot />
+    </main>
+
+    <!-- Footer (all pages) -->
+    <Footer />
+
+  </body>
+</html>

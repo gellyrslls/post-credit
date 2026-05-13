@@ -1,0 +1,70 @@
+/* global.css — base styles only. All component styling is done via Tailwind utility classes. */
+
+/* Import Google Fonts: Lora (headings) + Inter (body) */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Set root font to Inter at 18px for comfortable long-form reading */
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Apply warm cream background and charcoal text globally */
+  body {
+    @apply bg-pc-bg text-pc-text;
+  }
+
+  /* Dark mode overrides */
+  html.dark body {
+    @apply bg-pc-dark-bg text-pc-dark-text;
+  }
+
+  /* Heading font — apply Lora to all heading levels */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lora', Georgia, serif;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Prose styles for markdown-rendered blog post bodies */
+  .prose-post h2 {
+    @apply font-heading text-2xl font-semibold mt-10 mb-4 text-pc-text dark:text-pc-dark-text;
+  }
+  .prose-post h3 {
+    @apply font-heading text-xl font-medium mt-8 mb-3 text-pc-text dark:text-pc-dark-text;
+  }
+  .prose-post p {
+    @apply mb-6 leading-relaxed text-pc-text dark:text-pc-dark-text;
+  }
+  .prose-post a {
+    @apply text-pc-accent dark:text-green-400 underline underline-offset-2 hover:opacity-80 transition-opacity;
+  }
+  .prose-post ul, .prose-post ol {
+    @apply mb-6 pl-6;
+  }
+  .prose-post li {
+    @apply mb-2 leading-relaxed;
+  }
+  .prose-post blockquote {
+    @apply border-l-4 border-pc-accent pl-5 italic my-8 text-pc-muted dark:text-pc-dark-muted;
+  }
+  .prose-post code {
+    @apply bg-gray-100 dark:bg-gray-800 rounded px-1 py-0.5 text-sm font-mono;
+  }
+  .prose-post pre {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto mb-6;
+  }
+  .prose-post hr {
+    @apply border-pc-border dark:border-gray-700 my-10;
+  }
+}

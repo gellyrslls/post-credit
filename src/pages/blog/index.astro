@@ -1,0 +1,46 @@
+---
+// src/pages/blog/index.astro — Blog index page (route: /blog)
+// Lists all posts sorted newest first using the PostCard component.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+
+// Sort newest first
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+function estimateReadTime(body: string): number {
+  const words = body.trim().split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+---
+
+<BaseLayout
+  title="All Posts"
+  description="All entries from Post-Credit — a blog about graduating into the AI era."
+>
+  <section class="max-w-5xl mx-auto px-6 pt-16 pb-20">
+
+    <h1 class="font-heading text-4xl sm:text-5xl font-bold text-pc-text dark:text-pc-dark-text mb-12 leading-tight">
+      All Posts
+    </h1>
+
+    <!-- Post grid — same PostCard component as homepage -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {sortedPosts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date}
+          author={post.data.author}
+          description={post.data.description}
+          slug={post.id}
+          readTime={estimateReadTime(post.body)}
+        />
+      ))}
+    </div>
+
+  </section>
+</BaseLayout>

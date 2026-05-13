@@ -1,0 +1,51 @@
+---
+// src/pages/about.astro - About page (route: /about)
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About"
+  description="About Angelo Rosillosa, the writer behind Post-Credit."
+>
+  <section class="max-w-5xl mx-auto px-6 pt-16 pb-20">
+
+    <h1 class="font-heading text-4xl sm:text-5xl font-bold text-pc-text dark:text-pc-dark-text mb-10 leading-tight">
+      About
+    </h1>
+
+    <div class="flex flex-col md:flex-row-reverse gap-10 md:gap-12 items-start">
+      
+      <div class="w-full md:w-1/3 shrink-0">
+        <img 
+          src="public/profile.png" 
+          alt="Angelo Rosillosa" 
+          class="w-full max-w-[280px] mx-auto md:mx-0 md:ml-auto h-auto rounded-2xl shadow-lg object-cover"
+        />
+      </div>
+
+      <div class="w-full md:w-2/3 max-w-post font-body text-base text-pc-text dark:text-pc-dark-text leading-relaxed space-y-6">
+        <p>
+          Hi, I am Angelo.
+        </p>
+        
+        <p>
+          I am a Computer Science student at the University of San Carlos in Cebu, expected to graduate in July 2026. I spent the first seventeen years of my life growing up in Saudi Arabia before moving to the Philippines for university. This transition meant I had to learn how to adapt to new environments and figure out how to communicate all over again, which is a theme that has heavily influenced how I approach both life and software development.
+        </p>
+        
+        <p>
+          I am a full-stack developer who values curiosity-driven learning. I prefer building tools that solve actual problems rather than assembling projects just for display. Currently, I serve as the Deputy Online Managing Editor at <em>Today's Carolinian</em>. This is where I built TC Insights, which is an internal analytics platform using Next.js and Supabase that automates social media reporting and saves our editorial team hours of manual work every week. I also recently completed an internship at Symph, where I worked inside a real production codebase and learned what deploying software actually involves.
+        </p>
+        
+        <p>
+          I started <em>Post-Credit</em> to document the quiet and uncertain space between finishing a degree and starting a career. School teaches you the theory, but the tech industry expects a trade. This blog is my attempt to map out that gap honestly. It covers the realities of the job market, the lessons that never made it onto a syllabus, and what graduating into an AI-saturated landscape actually looks like from the inside.
+        </p>
+        
+        <p>
+          Feel free to check out my code on GitHub, connect with me on LinkedIn, or reach out via email.
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+</BaseLayout>
